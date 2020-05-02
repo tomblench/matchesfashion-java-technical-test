@@ -2,6 +2,14 @@
 
 # MatchesFashion Java Technical Test
 
+Solution outline:
+- Input is streamed in so that large texts can be processed without incurring a large memory overhead
+- Build a hash table mapping of (`word` → `number of occurrences`)
+- Build an inverted hash table mapping of (`number of occurrences` → `list of words`)
+- Sort inverted hash table by number of occurrences descending
+- Flatten out lists of words (in the stream `[[a, b], [c, d]]` becomes `[a, b, c, d]`)
+- Return the top 3 words (general case: top _n_ words).
+
 The solution is provided as an IntelliJ IDEA project _and_ a Gradle project. Either can be used for building and running.
 
 IntelliJ tasks are provided:
@@ -59,6 +67,24 @@ it, of, the
 
 BUILD SUCCESSFUL in 4s
 3 actionable tasks: 3 executed
+```
+
+## Running with piped input.
+
+Here is a timed example using the full text of "Don Quixote" as input.
+
+```
+Thomass-MacBook-Pro:MatchesFashionTest tomblench$ time curl -s http://www.gutenberg.org/files/996/996-0.txt | ./gradlew run
+
+> Task :run
+the, and, to
+
+BUILD SUCCESSFUL in 2s
+2 actionable tasks: 1 executed, 1 up-to-date
+
+real	0m2.377s
+user	0m2.807s
+sys	0m0.503s
 ```
 
 ## Running with pre-canned input
