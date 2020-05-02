@@ -3,6 +3,7 @@ package org.blench.matchesfashion.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+// test the public API ("black box" tests)
 public class PublicApiTests {
 
     @Test

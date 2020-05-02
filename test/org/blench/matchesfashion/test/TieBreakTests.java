@@ -3,6 +3,7 @@ package org.blench.matchesfashion.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+// check that the tie break rules are applied correctly: words sorting lower in the dictionary have precedence
 public class TieBreakTests {
 
     // test tie-breaks

@@ -3,6 +3,7 @@ package org.blench.matchesfashion.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+// check that the reverse tables are populated correctly ("clear box" test)
 public class ReverseTableTests {
 
     @Test

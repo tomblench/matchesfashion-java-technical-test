@@ -3,6 +3,7 @@ package org.blench.matchesfashion.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+// check that the tokeniser works correctly with punctuation, spaces, etc
 public class TokeniserTests {
 
     @Test

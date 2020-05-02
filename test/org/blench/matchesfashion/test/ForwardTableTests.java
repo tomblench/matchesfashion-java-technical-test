@@ -3,7 +3,7 @@ package org.blench.matchesfashion.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-// check that the forward
+// check that the forward tables are populated correctly ("clear box" test)
 public class ForwardTableTests {
 
     @Test
