@@ -88,9 +88,9 @@ public class TopWords {
             //
             // use a TreeSet to ensure tie-breaks favour words which collate earlier in the dictionary
             // since TreeSets are naturally sorted.
-            reverseTable.computeIfAbsent(occurrences, k -> new TreeSet<>());
+            Collection<String> words = reverseTable.computeIfAbsent(occurrences, k -> new TreeSet<>());
             // add word keyed by this number of occurrences
-            reverseTable.get(occurrences).add(word);
+            words.add(word);
         }
     }
 
