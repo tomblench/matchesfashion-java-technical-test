@@ -70,13 +70,7 @@ public class TopWords {
                 // get next word from stream
                 String word = getWord();
                 // set word count to 1 if not present, else increment
-                forwardTable.compute(word, (word2, occurences) -> {
-                    if (occurences == null) {
-                        return 1;
-                    } else {
-                        return occurences + 1;
-                    }
-                });
+                forwardTable.merge(word, 1, Integer::sum);
             } catch (NoSuchElementException | IllegalStateException ex) {
                 // we've probably got to the end of the stream, so exit
                 break;
@@ -88,21 +82,15 @@ public class TopWords {
 
         // populate reverse table
         for (Map.Entry<String, Integer> e : forwardTable.entrySet()) {
-            int occurrences = e.getValue();
+            Integer occurrences = e.getValue();
             String word = e.getKey();
-            reverseTable.compute(e.getValue(), (occurences2, words) -> {
-                // no entry, create new list containing word
-                if (words == null) {
-                    // use a TreeSet to ensure tie-breaks favour words which collate earlier in the dictionary
-                    // (TreeSets are naturally sorted)
-                    TreeSet<String> newSet = new TreeSet<>();
-                    newSet.add(word);
-                    return newSet;
-                } else {
-                    words.add(word);
-                    return words;
-                }
-            });
+            // if this slot in the hashtable hasn't been initialised, create a new TreeSet for the words
+            //
+            // use a TreeSet to ensure tie-breaks favour words which collate earlier in the dictionary
+            // since TreeSets are naturally sorted.
+            reverseTable.computeIfAbsent(occurrences, k -> new TreeSet<>());
+            // add word keyed by this number of occurrences
+            reverseTable.get(occurrences).add(word);
         }
     }
 
@@ -125,7 +113,7 @@ public class TopWords {
                     .entrySet()
                     .stream()
                     // sort by number of occurrences, highest first
-                    .sorted((e1, e2) -> {return e2.getKey() - e1.getKey();})
+                    .sorted(Comparator.comparingInt(Map.Entry<Integer, Collection<String>>::getKey).reversed())
                     .collect(Collectors.toList()));
         }
 
@@ -134,7 +122,7 @@ public class TopWords {
                 .entrySet()
                 .stream()
                 // sort by number of occurrences, highest first
-                .sorted((e1, e2) -> {return e2.getKey() - e1.getKey();})
+                .sorted(Comparator.comparingInt(Map.Entry<Integer, Collection<String>>::getKey).reversed())
                 // map word list entries into a flat stream of words, meaning those with highest occurrence have highest
                 // precedence, and lower-sorting words win in case of a tie break
                 .flatMap(e -> e.getValue().stream())
