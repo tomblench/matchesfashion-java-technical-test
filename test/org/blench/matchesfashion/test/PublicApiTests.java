@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 // test the public API ("black box" tests)
 public class PublicApiTests {
 
+    // test using the Don Quixote quote from the instructions
     @Test
     public void testDonQuixote() {
         String str = "In a village of La Mancha, the name of which I have no desire to call\n" +
@@ -16,9 +17,33 @@ public class PublicApiTests {
                 "extra on Sundays, made away with three-quarters of his income.";
         TopWords tw = new TopWords(str);
         String[] words = tw.top3Words();
+        Assertions.assertEquals(3, words.length);
         Assertions.assertEquals("a", words[0]);
         Assertions.assertEquals("of", words[1]);
         Assertions.assertEquals("on", words[2]);
+    }
+
+    // test using sample from the instructions
+    @Test
+    public void testSample1() {
+        String str = "e e e e DDD ddd DdD: ddd ddd aa aA Aa, bb cc cC e e e";
+        TopWords tw = new TopWords(str);
+        String[] words = tw.top3Words();
+        Assertions.assertEquals(3, words.length);
+        Assertions.assertEquals("e", words[0]);
+        Assertions.assertEquals("ddd", words[1]);
+        Assertions.assertEquals("aa", words[2]);
+    }
+
+    // test using sample from the instructions
+    @Test
+    public void testSample2() {
+        String str = " //wont won't won't";
+        TopWords tw = new TopWords(str);
+        String[] words = tw.top3Words();
+        Assertions.assertEquals(2, words.length);
+        Assertions.assertEquals("won't", words[0]);
+        Assertions.assertEquals("wont", words[1]);
     }
 
     // we can call multiple times (potentially with different values of n) without re-parsing
