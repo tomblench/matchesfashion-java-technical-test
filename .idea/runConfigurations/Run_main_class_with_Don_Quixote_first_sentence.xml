@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run main class with Don Quixote first sentence" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.blench.matchesfashion.test.Main" />
+    <module name="MatchesFashionTest" />
+    <option name="PROGRAM_PARAMETERS" value="donquixote-firstsentence.txt" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
