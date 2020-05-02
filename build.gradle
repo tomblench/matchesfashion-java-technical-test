@@ -42,15 +42,25 @@ test {
     useJUnitPlatform()
 }
 
+// run using stdin as input - type your input at the terminal then hit C-d when done
+run {
+  if (project.hasProperty('inputFile')) {
+    args inputFile
+  } else {
+    standardInput = System.in
+  }
+  systemProperties(System.getProperties())
+}
+
 // run using the first sentence of don quixote as input
-task donQuixote(type: JavaExec) {
+task runWithDonQuixote(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = application.mainClassName
   args 'donquixote-firstsentence.txt'
 }
 
 // run using the first 3 paragraphs of don quixote as input
-task donQuixoteLonger(type: JavaExec) {
+task runWithDonQuixoteLonger(type: JavaExec) {
   classpath = sourceSets.main.runtimeClasspath
   main = application.mainClassName
   args 'donquixote-first3paras.txt'

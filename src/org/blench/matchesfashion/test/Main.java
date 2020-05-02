@@ -1,15 +1,5 @@
 package org.blench.matchesfashion.test;
 
-// TODO for all classes
-// javadoc
-// package-info
-// tests
-// README
-// how to run
-// samples
-// maven
-// gradle
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -18,7 +8,6 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    // TODO print stats, hashtable size etc
     public static void main(String[] args) {
         if (args.length == 1) {
             // read from file
@@ -32,6 +21,10 @@ public class Main {
                 System.exit(1);
             }
         } else if (args.length == 0) {
+            if (System.in == null ) {
+                System.err.println("Error. Could not open stdin");
+                System.exit(1);
+            }
             TopWords tw = new TopWords(new InputStreamReader(System.in));
             String[] words = tw.top3Words();
             printOutput(words);

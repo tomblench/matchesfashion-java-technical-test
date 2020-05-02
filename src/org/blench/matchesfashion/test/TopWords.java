@@ -2,6 +2,7 @@ package org.blench.matchesfashion.test;
 
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TopWords {
 
@@ -16,7 +17,7 @@ public class TopWords {
     Map<String, Integer> forwardTable;
 
     // package-private for testing
-    // "reverse" hash, mapping number of occurrences to word(s)
+    // "reverse" hash, mapping number of occurrences -> word(s)
     Map<Integer, Collection<String>> reverseTable;
 
     /**
@@ -84,7 +85,6 @@ public class TopWords {
 
         // close inputstream underlying scanner
         scanner.close();
-        doneScanning = true;
 
         // populate reverse table
         for (Map.Entry<String, Integer> e : forwardTable.entrySet()) {
@@ -115,6 +115,18 @@ public class TopWords {
 
         if (!doneScanning) {
             populateTables();
+            doneScanning = true;
+        }
+
+        // dump out sorted reverse table for debugging purposes - there's a bit of repetition between this and the
+        // code below, but we can't re-use the stream - once it's been collected, that's it!
+        if (Boolean.parseBoolean(System.getProperty("dumpTable", "false"))) {
+            System.err.println(reverseTable
+                    .entrySet()
+                    .stream()
+                    // sort by number of occurrences, highest first
+                    .sorted((e1, e2) -> {return e2.getKey() - e1.getKey();})
+                    .collect(Collectors.toList()));
         }
 
         // iterate reverse table in descending order
