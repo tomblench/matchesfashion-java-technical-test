@@ -17,6 +17,8 @@ IntelliJ tasks are provided:
 - "Run main class with Don Quixote first sentence". As described, using one of the provided sample input files.
 - "org.blench.matchesfashion.test in MatchesFashionTest". Run all JUnit tests.
 
+_Note: When opening the IntelliJ project you may need to set your project SDK. The build.gradle file does not need to be imported._
+
 Examples below are focussed on running with gradlew at the command line.
 
 # Tests
