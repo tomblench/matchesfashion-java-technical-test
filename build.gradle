@@ -1,0 +1,57 @@
+plugins {
+    id 'application'
+}
+
+// streams and lambdas are the most fancy features we use...
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+version = '1.0.0'
+group = 'org.blench.matchesfashion.test'
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClassName = 'org.blench.matchesfashion.test.Main'
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src']
+         }
+    }
+
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// run using the first sentence of don quixote as input
+task donQuixote(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = application.mainClassName
+  args 'donquixote-firstsentence.txt'
+}
+
+// run using the first 3 paragraphs of don quixote as input
+task donQuixoteLonger(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  main = application.mainClassName
+  args 'donquixote-first3paras.txt'
+}

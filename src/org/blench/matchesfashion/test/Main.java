@@ -18,15 +18,14 @@ import java.util.stream.Collectors;
 
 public class Main {
 
-    private static final int TOP_WORD_COUNT = 3;
-
+    // TODO print stats, hashtable size etc
     public static void main(String[] args) {
         if (args.length == 1) {
             // read from file
             try {
                 FileReader fr = new FileReader(args[0]);
                 TopWords tw = new TopWords(fr);
-                String[] words = tw.topWords(TOP_WORD_COUNT);
+                String[] words = tw.top3Words();
                 printOutput(words);
             } catch (FileNotFoundException fnfe) {
                 System.err.println("Error. Could not open file "+args[0]);
@@ -34,7 +33,7 @@ public class Main {
             }
         } else if (args.length == 0) {
             TopWords tw = new TopWords(new InputStreamReader(System.in));
-            String[] words = tw.topWords(TOP_WORD_COUNT);
+            String[] words = tw.top3Words();
             printOutput(words);
         } else {
             System.err.println("Error. Invoke with no args to read for stdin or invoke with one argument to read from file");

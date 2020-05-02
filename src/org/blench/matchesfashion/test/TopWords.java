@@ -1,12 +1,15 @@
 package org.blench.matchesfashion.test;
 
+import java.io.StringReader;
 import java.util.*;
 
-// TODO check java.nio classes
-// TODO closing streams etc
 public class TopWords {
 
+    // scanner used to get words from stream
     private Scanner scanner;
+
+    // set this flag to true once we've finished scanning
+    private boolean doneScanning;
 
     // package-private for testing
     // "forward" hash, mapping word -> number of occurences
@@ -16,7 +19,37 @@ public class TopWords {
     // "reverse" hash, mapping number of occurrences to word(s)
     Map<Integer, Collection<String>> reverseTable;
 
-    TopWords(Readable in) {
+    /**
+     * Construct object for returning top-occurring words
+     * @param r a source of characters containing words
+     */
+    TopWords(Readable r) {
+        if (r == null) {
+            throw new IllegalArgumentException("Parameter \"r\" is required to be non-null");
+        }
+        setup(r);
+    }
+
+    /**
+     * <p>
+     * Construct object for returning top-occurring words
+     * </p>
+     * <p>
+     * NB: this is the same as calling {@code new TopWords(new StringReader(str));}
+     * </p>
+     * @param str a string containing words
+     * @see #TopWords(Readable)
+     */
+    TopWords(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException("Parameter \"str\" is required to be non-null");
+        }
+        setup(new StringReader(str));
+    }
+
+    // shared constructor stuff
+    private void setup(Readable in) {
+        doneScanning = false;
         forwardTable = new HashMap<>();
         reverseTable = new HashMap<>();
         // only consider letters and apostrophes for words, and drop all other characters
@@ -28,15 +61,12 @@ public class TopWords {
         return scanner.next().toLowerCase();
     }
 
-    /**
-     * Return top n most-occuring words in order of occurrence.
-     * @param n number of words to return
-     * @return array of most-occuring words
-     */
-    public String[] topWords(int n) {
+    private void populateTables() {
+
         // populate forward table
         while (true) {
             try {
+                // get next word from stream
                 String word = getWord();
                 // set word count to 1 if not present, else increment
                 forwardTable.compute(word, (word2, occurences) -> {
@@ -47,11 +77,15 @@ public class TopWords {
                     }
                 });
             } catch (NoSuchElementException | IllegalStateException ex) {
+                // we've probably got to the end of the stream, so exit
                 break;
             }
         }
+
         // close inputstream underlying scanner
         scanner.close();
+        doneScanning = true;
+
         // populate reverse table
         for (Map.Entry<String, Integer> e : forwardTable.entrySet()) {
             int occurrences = e.getValue();
@@ -69,6 +103,18 @@ public class TopWords {
                     return words;
                 }
             });
+        }
+    }
+
+    /**
+     * Return top n most-occuring words in order of occurrence.
+     * @param n number of words to return
+     * @return array of most-occuring words
+     */
+    public String[] topWords(int n) {
+
+        if (!doneScanning) {
+            populateTables();
         }
 
         // iterate reverse table in descending order
