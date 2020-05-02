@@ -1,3 +1,5 @@
+![Java CI with Gradle](https://github.com/tomblench/matchesfashion-java-technical-test/workflows/Java%20CI%20with%20Gradle/badge.svg)
+
 # MatchesFashion Java Technical Test
 
 The solution is provided as an IntelliJ IDEA project _and_ a Gradle project. Either can be used for building and running.
