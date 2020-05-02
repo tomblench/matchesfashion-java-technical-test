@@ -6,6 +6,10 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+/**
+ * Main class. Program can be invoked from the command line with one argument (file name), or zero arguments (use
+ * standard input). Top 3 words are printed to the console separated by commas. Basic error checking provided.
+ */
 public class Main {
 
     public static void main(String[] args) {
