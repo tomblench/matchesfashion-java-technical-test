@@ -6,6 +6,7 @@ Solution outline:
 - Input is streamed in so that large texts can be processed without incurring a large memory overhead
 - Build a hash table mapping of (`word` → `number of occurrences`)
 - Build an inverted hash table mapping of (`number of occurrences` → `list of words`)
+- Note that in above step `list of words` is sorted alphabetically for consistent tie-breaking
 - Sort inverted hash table by number of occurrences descending
 - Flatten out lists of words (in the stream `[[a, b], [c, d]]` becomes `[a, b, c, d]`)
 - Return the top 3 words (general case: top _n_ words).
@@ -69,7 +70,7 @@ BUILD SUCCESSFUL in 4s
 3 actionable tasks: 3 executed
 ```
 
-## Running with piped input.
+## Running with piped input
 
 Here is a timed example using the full text of "Don Quixote" as input.
 
