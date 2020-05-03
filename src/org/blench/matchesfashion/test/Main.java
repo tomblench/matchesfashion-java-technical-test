@@ -1,5 +1,7 @@
 package org.blench.matchesfashion.test;
 
+import org.blench.matchesfashion.test.api.TopWords;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -17,8 +19,7 @@ public class Main {
             // read from file
             try {
                 FileReader fr = new FileReader(args[0]);
-                TopWords tw = new TopWords(fr);
-                String[] words = tw.top3Words();
+                String[] words = TopWords.top3Words(fr);
                 printOutput(words);
             } catch (FileNotFoundException fnfe) {
                 System.err.println("Error. Could not open file "+args[0]);
@@ -29,8 +30,7 @@ public class Main {
                 System.err.println("Error. Could not open stdin");
                 System.exit(1);
             }
-            TopWords tw = new TopWords(new InputStreamReader(System.in));
-            String[] words = tw.top3Words();
+            String[] words = TopWords.top3Words(new InputStreamReader(System.in));
             printOutput(words);
         } else {
             System.err.println("Error. Invoke with no args to read for stdin or invoke with one argument to read from file");

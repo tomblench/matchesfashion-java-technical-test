@@ -1,4 +1,4 @@
-package org.blench.matchesfashion.test;
+package org.blench.matchesfashion.test.internal;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,8 +10,8 @@ public class TieBreakTests {
     @Test
     public void testTieBreaks() {
         String str = "a b c d a b c d a b c d";
-        TopWords tw = new TopWords(str);
-        String[] words = tw.top3Words();
+        Analyser tw = new Analyser(str);
+        String[] words = tw.topWords(3);
         // abcd all score 3 in the forward table
         Assertions.assertEquals(3, tw.forwardTable.get("a"));
         Assertions.assertEquals(3, tw.forwardTable.get("b"));
@@ -27,8 +27,8 @@ public class TieBreakTests {
     @Test
     public void testTieBreaks2() {
         String str = "a a a b b c c d d ";
-        TopWords tw = new TopWords(str);
-        String[] words = tw.top3Words();
+        Analyser tw = new Analyser(str);
+        String[] words = tw.topWords(3);
         // abcd score 3,2,2,2 respectively in the forward table
         Assertions.assertEquals(3, tw.forwardTable.get("a"));
         Assertions.assertEquals(2, tw.forwardTable.get("b"));
@@ -44,8 +44,8 @@ public class TieBreakTests {
     @Test
     public void testTieBreaks3() {
         String str = "e e a a a b b c c xx zz xx zz w w";
-        TopWords tw = new TopWords(str);
-        String[] words = tw.top3Words();
+        Analyser tw = new Analyser(str);
+        String[] words = tw.topWords(3);
         // as previous tests, but more complex
         Assertions.assertEquals(3, tw.forwardTable.get("a"));
         Assertions.assertEquals(2, tw.forwardTable.get("b"));

@@ -1,4 +1,4 @@
-package org.blench.matchesfashion.test;
+package org.blench.matchesfashion.test.internal;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ public class TokeniserTests {
     @Test
     public void testTokeniser() {
         String str = "blah Blah haven't, and then bus-stop  umm";
-        TopWords tw = new TopWords(str);
+        Analyser tw = new Analyser(str);
         Assertions.assertEquals("blah", tw.getWord());
         Assertions.assertEquals("blah", tw.getWord());
         Assertions.assertEquals("haven't", tw.getWord());

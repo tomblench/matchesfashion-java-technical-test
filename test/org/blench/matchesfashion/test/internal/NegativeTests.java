@@ -1,4 +1,4 @@
-package org.blench.matchesfashion.test;
+package org.blench.matchesfashion.test.internal;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ public class NegativeTests {
     public void testNullReader() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             Reader s = null;
-            TopWords tw = new TopWords(s);
+            Analyser tw = new Analyser(s);
         });
     }
 
@@ -22,7 +22,7 @@ public class NegativeTests {
     public void testNullString() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             String s = null;
-            TopWords tw = new TopWords(s);
+            Analyser tw = new Analyser(s);
         });
     }
 

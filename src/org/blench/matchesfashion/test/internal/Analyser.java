@@ -1,10 +1,13 @@
-package org.blench.matchesfashion.test;
+package org.blench.matchesfashion.test.internal;
 
 import java.io.StringReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class TopWords {
+/**
+ * Internal implementation - not for public API use
+ */
+public class Analyser {
 
     // scanner used to get words from stream
     private Scanner scanner;
@@ -24,7 +27,7 @@ public class TopWords {
      * Construct object for returning top-occurring words
      * @param r a source of characters containing words
      */
-    TopWords(Readable r) {
+    public Analyser(Readable r) {
         if (r == null) {
             throw new IllegalArgumentException("Parameter \"r\" is required to be non-null");
         }
@@ -36,12 +39,12 @@ public class TopWords {
      * Construct object for returning top-occurring words
      * </p>
      * <p>
-     * NB: this is the same as calling {@code new TopWords(new StringReader(str));}
+     * NB: this is the same as calling {@code new Analyser(new StringReader(str));}
      * </p>
      * @param str a string containing words
-     * @see #TopWords(Readable)
+     * @see #Analyser(Readable)
      */
-    TopWords(String str) {
+    public Analyser(String str) {
         if (str == null) {
             throw new IllegalArgumentException("Parameter \"str\" is required to be non-null");
         }
@@ -126,20 +129,6 @@ public class TopWords {
                 .flatMap(e -> e.getValue().stream())
                 .limit(n)
                 .toArray(String[]::new);
-    }
-
-    /**
-     * <p>
-     * Convenience method.
-     * </p>
-     * <p>
-     * Return top 3 most-occurring words in order of occurrence.
-     * </p>
-     * @return array of 3 most-occurring words
-     * @see #topWords(int)
-     */
-    public String[] top3Words() {
-        return topWords(3);
     }
 
 }
