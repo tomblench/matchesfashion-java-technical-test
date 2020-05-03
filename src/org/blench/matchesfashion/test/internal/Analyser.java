@@ -24,6 +24,7 @@ public class Analyser {
     /**
      * Construct object for returning top-occurring words
      * @param r a source of characters containing words
+     * @throws IllegalArgumentException if {@code r} is {@code null}
      */
     public Analyser(Readable r) {
         if (r == null) {
@@ -40,6 +41,7 @@ public class Analyser {
      * NB: this is the same as calling {@code new Analyser(new StringReader(str));}
      * </p>
      * @param str a string containing words
+     * @throws IllegalArgumentException if {@code str} is {@code null}
      * @see #Analyser(Readable)
      */
     public Analyser(String str) {
