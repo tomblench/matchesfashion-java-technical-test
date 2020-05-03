@@ -3,6 +3,7 @@ package org.blench.matchesfashion.test.internal;
 import java.io.StringReader;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Internal implementation - not for public API use
@@ -11,9 +12,6 @@ public class Analyser {
 
     // scanner used to get words from stream
     private Scanner scanner;
-
-    // set this flag to true once we've finished scanning
-    private boolean doneScanning;
 
     // package-private for testing
     // "forward" hash, mapping word -> number of occurences
@@ -53,7 +51,6 @@ public class Analyser {
 
     // shared constructor stuff
     private void setup(Readable in) {
-        doneScanning = false;
         forwardTable = new HashMap<>();
         reverseTable = new HashMap<>();
         // only consider letters and apostrophes for words, and drop all other characters
@@ -95,6 +92,15 @@ public class Analyser {
         }
     }
 
+    // generate reverse table stream, sorted descending
+    private Stream<Map.Entry<Integer, Collection<String>>> reverseTableSorted() {
+        return reverseTable
+                .entrySet()
+                .stream()
+                // sort by number of occurrences, highest first
+                .sorted(Comparator.comparingInt(Map.Entry<Integer, Collection<String>>::getKey).reversed());
+    }
+
     /**
      * Return top n most-occurring words in order of occurrence.
      * @param n number of words to return
@@ -102,30 +108,19 @@ public class Analyser {
      */
     public String[] topWords(int n) {
 
-        if (!doneScanning) {
-            populateTables();
-            doneScanning = true;
-        }
+        // scan text, populate forward and reverse tables
+        populateTables();
 
-        // dump out sorted reverse table for debugging purposes - there's a bit of repetition between this and the
-        // code below, but we can't re-use the stream - once it's been collected, that's it!
+        // dump out sorted reverse table for debugging purposes
         if (Boolean.parseBoolean(System.getProperty("dumpTable", "false"))) {
-            System.err.println(reverseTable
-                    .entrySet()
-                    .stream()
-                    // sort by number of occurrences, highest first
-                    .sorted(Comparator.comparingInt(Map.Entry<Integer, Collection<String>>::getKey).reversed())
-                    .collect(Collectors.toList()));
+            System.err.println(reverseTableSorted().collect(Collectors.toList()));
         }
 
+        // return results:
         // iterate reverse table in descending order
-        return reverseTable
-                .entrySet()
-                .stream()
-                // sort by number of occurrences, highest first
-                .sorted(Comparator.comparingInt(Map.Entry<Integer, Collection<String>>::getKey).reversed())
+        return reverseTableSorted()
                 // map word list entries into a flat stream of words, meaning those with highest occurrence have highest
-                // precedence, and lower-sorting words win in case of a tie break
+                // precedence, and alphabetically lower-sorting words win in case of a tie break on occurrence.
                 .flatMap(e -> e.getValue().stream())
                 .limit(n)
                 .toArray(String[]::new);
