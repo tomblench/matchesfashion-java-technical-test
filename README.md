@@ -1,5 +1,7 @@
 ![Java CI with Gradle](https://github.com/tomblench/matchesfashion-java-technical-test/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
+[Link to CI results](https://github.com/tomblench/matchesfashion-java-technical-test/actions?query=workflow%3A%22Java+CI+with+Gradle%22)
+
 # MatchesFashion Java Technical Test
 
 Solution outline:
