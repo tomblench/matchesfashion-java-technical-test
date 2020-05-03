@@ -14,7 +14,7 @@ public class Analyser {
     private Scanner scanner;
 
     // package-private for testing
-    // "forward" hash, mapping word -> number of occurences
+    // "forward" hash, mapping word -> number of occurrences
     Map<String, Integer> forwardTable;
 
     // package-private for testing
