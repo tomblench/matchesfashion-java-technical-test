@@ -85,19 +85,17 @@ public class TopWords {
             Integer occurrences = e.getValue();
             String word = e.getKey();
             // if this slot in the hashtable hasn't been initialised, create a new TreeSet for the words
-            //
             // use a TreeSet to ensure tie-breaks favour words which collate earlier in the dictionary
             // since TreeSets are naturally sorted.
-            Collection<String> words = reverseTable.computeIfAbsent(occurrences, k -> new TreeSet<>());
             // add word keyed by this number of occurrences
-            words.add(word);
+            reverseTable.computeIfAbsent(occurrences, k -> new TreeSet<>()).add(word);
         }
     }
 
     /**
-     * Return top n most-occuring words in order of occurrence.
+     * Return top n most-occurring words in order of occurrence.
      * @param n number of words to return
-     * @return array of most-occuring words
+     * @return array of most-occurring words
      */
     public String[] topWords(int n) {
 
@@ -135,9 +133,9 @@ public class TopWords {
      * Convenience method.
      * </p>
      * <p>
-     * Return top 3 most-occuring words in order of occurrence.
+     * Return top 3 most-occurring words in order of occurrence.
      * </p>
-     * @return array of 3 most-occuring words
+     * @return array of 3 most-occurring words
      * @see #topWords(int)
      */
     public String[] top3Words() {
